@@ -74,10 +74,10 @@ let questions = [
     },
     {
         question: "Which alert is written in a valid way?",
-        choiceA: "#id{}",
-        choiceB: "header a, p{}",
+        choiceA: "postAlert();",
+        choiceB: "<alert></alert>",
         choiceC: "alert('text');",
-        choiceD: "all of the above",
+        choiceD: "none of the above",
         answer: "3"
     },
 ];
