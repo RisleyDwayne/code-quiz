@@ -1,0 +1,7 @@
+header a, p{
+    font-weight: bold;
+}
+
+#newQuizNav, #quizSection, #hiScoreSection {
+    display: none;
+}

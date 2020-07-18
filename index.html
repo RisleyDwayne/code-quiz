@@ -19,12 +19,24 @@
 
     <header>
 
-        <div class="d-flex justify-content-between">
+        <div class="container-fluid">
 
-            <a href="">View Highscores</a>
+            <div class="row">
 
-            <p id="timer">Time: </p>
+                <div class="col">
 
+                    <a href="" id="hiScoreNav">View Highscores</a>
+                    <a href="" id="newQuizNav">Start New Quiz</a>
+
+                </div>
+
+                <div class="col-6 d-flex justify-content-end">
+
+                    <p>Time: </p>
+                    <p class = "text-danger" id = "timerText"></p>
+
+                </div>
+            </div>
         </div>
     </header>
 
@@ -42,9 +54,7 @@
                     the time remaining when all questions are answered.</h5>
 
                 <button id="startButton" class="btn btn-primary">Start Quiz</button>
-
             </div>
-
         </div>
 
 
@@ -62,13 +72,9 @@
                         <button value=2 id="option2" class="mb-2 btn btn-primary">B.</button>
                         <button value=3 id="option3" class="mb-2 btn btn-primary">C.</button>
                         <button value=4 id="option4" class="mb-2 btn btn-primary">D.</button>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
 
         <div class="container">
@@ -81,26 +87,18 @@
 
                         <h3 class="m-5">High Scores</h3>
 
-
                         <div id="hiScoreDiv">
 
-
+                            
 
                         </div>
-                        
+
                         <button id="newQuizBtn" class="mb-2 btn btn-primary">Try Again</button>
                         <button id="clearHiScoreBtn" class="mb-2 btn btn-primary">Clear Scores</button>
-
-
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </main>
 </body>
 
