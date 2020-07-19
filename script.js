@@ -77,7 +77,7 @@ let questions = [
         optionA: "postAlert();",
         optionB: "<alert></alert>",
         optionC: "alert('text');",
-        choiceD: "none of the above",
+        optionD: "none of the above",
         answer: "3"
     },
 ];
@@ -99,7 +99,9 @@ const quizDiv = document.getElementById("quizSection");
 const hiScoreDiv = document.getElementById("hiScoreSection");
 
 let currentQuestion = 0;
-const lastQuestion = questions.length-1;
+const lastQuestion = questions.length;
+
+let questionDisplayed = questions[0];
 
 function startQuiz() {
 
@@ -107,8 +109,13 @@ function startQuiz() {
     quizDiv.style.display = "block";
     interval = setInterval(function () {
 
-        timeRemaining--;
-        timerText.textContent = " " + timeRemaining;
+        if (timeRemaining > 0) {
+            timeRemaining--;
+            timerText.textContent = " " + timeRemaining;
+        }else{
+            endQuiz();
+        }
+
 
     }, 1000);
 
@@ -116,23 +123,49 @@ function startQuiz() {
 
 }
 
-function showQuestion(){
+function showQuestion() {
 
-    if (currentQuestion < lastQuestion){
+    if (currentQuestion < lastQuestion) {
 
-        let q = questions[currentQuestion];
-        
-        question.textContent = q.question;
-        answer1.textContent = q.optionA;
-        answer2.textContent = q.optionB;
-        answer3.textContent = q.optionC;
-        answer4.textContent = q.optionD;
+        questionDisplayed = questions[currentQuestion];
+
+        question.textContent = questionDisplayed.question;
+        answer1.textContent = questionDisplayed.optionA;
+        answer2.textContent = questionDisplayed.optionB;
+        answer3.textContent = questionDisplayed.optionC;
+        answer4.textContent = questionDisplayed.optionD;
+
+        console.log(questionDisplayed.optionD);
 
     }
 
 }
 
-function checkAnswer(){
+function checkAnswer(button) {
+
+    if(button.target.value === questionDisplayed.answer){
+        rightOrWrongText.style.display = "block";
+        rightOrWrongText.textContent = "Correct!";
+    }else{
+        rightOrWrongText.style.display = "block";
+        rightOrWrongText.textContent = "Incorrect.";
+        timeRemaining -= 5;
+    }
+
+    nextQuestion();
+
+}
+
+function nextQuestion(){
+    if(currentQuestion<lastQuestion){
+        currentQuestion++;
+        showQuestion();
+    }else{
+        endQuiz();
+    }
+}
+
+function endQuiz(){
 
 }
 
