@@ -18,10 +18,10 @@ let questions = [
     },
     {
         question: "What is the meaning of the abbreviation 'DOM'?",
-        choiceA: "Database Objective Model",
-        choiceB: "Document Object Management",
-        choiceC: "Development Output Manager",
-        choiceD: "Document Object Model",
+        optionA: "Database Objective Model",
+        optionB: "Document Object Management",
+        optionC: "Development Output Manager",
+        optionD: "Document Object Model",
         answer: "4"
     },
     {
@@ -50,47 +50,95 @@ let questions = [
     },
     {
         question: "Which of the following syntax signifies 'and'?",
-        choiceA: "$$",
-        choiceB: "==",
-        choiceC: "||",
-        choiceD: "&&",
+        optionA: "$$",
+        optionB: "==",
+        optionC: "||",
+        optionD: "&&",
         answer: "4"
     },
     {
         question: "An 'if' statement is an example of a ____ operation",
-        choiceA: "conditional",
-        choiceB: "syntatic",
-        choiceC: "looping",
-        choiceD: "objective",
+        optionA: "conditional",
+        optionB: "syntatic",
+        optionC: "looping",
+        optionD: "objective",
         answer: "1"
     },
     {
         question: "Which of the following is an example of valid CSS syntax?",
-        choiceA: "#id{}",
-        choiceB: "header a, p{}",
-        choiceC: "div h1{}",
-        choiceD: "all of the above",
+        optionA: "#id{}",
+        optionB: "header a, p{}",
+        optionC: "div h1{}",
+        optionD: "all of the above",
         answer: "4"
     },
     {
         question: "Which alert is written in a valid way?",
-        choiceA: "postAlert();",
-        choiceB: "<alert></alert>",
-        choiceC: "alert('text');",
+        optionA: "postAlert();",
+        optionB: "<alert></alert>",
+        optionC: "alert('text');",
         choiceD: "none of the above",
         answer: "3"
     },
 ];
 
-
-
 let score = 0;
-let timeRemaining = 60;
+let timeRemaining = 90;
+let interval;
+
 const start = document.querySelector("#startBtn");
-const timerText = document.querySelector("#timer");
+const timerText = document.querySelector("#timerText");
 const question = document.querySelector("#questionText");
 const answer1 = document.querySelector("#option1");
 const answer2 = document.querySelector("#option2");
 const answer3 = document.querySelector("#option3");
 const answer4 = document.querySelector("#option4");
 const rightOrWrongText = document.querySelector("#rightOrWrong");
+const startDiv = document.getElementById("startPage");
+const quizDiv = document.getElementById("quizSection");
+const hiScoreDiv = document.getElementById("hiScoreSection");
+
+let currentQuestion = 0;
+const lastQuestion = questions.length-1;
+
+function startQuiz() {
+
+    startDiv.style.display = "none";
+    quizDiv.style.display = "block";
+    interval = setInterval(function () {
+
+        timeRemaining--;
+        timerText.textContent = " " + timeRemaining;
+
+    }, 1000);
+
+    showQuestion();
+
+}
+
+function showQuestion(){
+
+    if (currentQuestion < lastQuestion){
+
+        let q = questions[currentQuestion];
+        
+        question.textContent = q.question;
+        answer1.textContent = q.optionA;
+        answer2.textContent = q.optionB;
+        answer3.textContent = q.optionC;
+        answer4.textContent = q.optionD;
+
+    }
+
+}
+
+function checkAnswer(){
+
+}
+
+
+start.addEventListener("click", startQuiz);
+answer1.addEventListener("click", checkAnswer);
+answer2.addEventListener("click", checkAnswer);
+answer3.addEventListener("click", checkAnswer);
+answer4.addEventListener("click", checkAnswer);

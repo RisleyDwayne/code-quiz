@@ -2,6 +2,6 @@ header a, p{
     font-weight: bold;
 }
 
-#newQuizNav, #quizSection, #hiScoreSection {
+#newQuizNav, #quizSection, #hiScoreSection, #rightOrWrong{
     display: none;
 }
