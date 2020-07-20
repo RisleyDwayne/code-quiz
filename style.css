@@ -1,7 +1,18 @@
-header a, p{
+header a, header p{
     font-weight: bold;
 }
 
-#newQuizNav, #quizSection, #hiScoreSection, #rightOrWrong{
+#newQuizNav, #quizSection, #hiScoreSection, #rightOrWrong, #quizEndSection{
     display: none;
+}
+
+#rightOrWrong{
+font-size: large;
+}
+
+#hiScoreList{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
 }

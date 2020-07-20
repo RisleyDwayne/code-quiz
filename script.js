@@ -81,10 +81,11 @@ let questions = [
         answer: "3"
     },
 ];
-
-let score = 0;
 let timeRemaining = 90;
 let interval;
+let score = 100;
+
+let scoresArray = localStorage.getItem("savedScores");
 
 const start = document.querySelector("#startBtn");
 const timerText = document.querySelector("#timerText");
@@ -93,26 +94,45 @@ const answer1 = document.querySelector("#option1");
 const answer2 = document.querySelector("#option2");
 const answer3 = document.querySelector("#option3");
 const answer4 = document.querySelector("#option4");
+const scoreList = document.querySelector("#hiScoreList");
 const rightOrWrongText = document.querySelector("#rightOrWrong");
+const initialsInput = document.querySelector("#inputInitials");
+const finalScore = document.querySelector("#finalScore");
+const submitBtn = document.querySelector("#submit");
+const clearBtn = document.querySelector("#clearHiScoreBtn");
+const newQuizBtn = document.querySelector("#newQuizBtn");
 const startDiv = document.getElementById("startPage");
 const quizDiv = document.getElementById("quizSection");
 const hiScoreDiv = document.getElementById("hiScoreSection");
+const quizEndDiv = document.getElementById("quizEndSection");
+const hiScoreNav = document.getElementById("hiScoreNav");
+const newQuizNav = document.getElementById("newQuizNav");
+
 
 let currentQuestion = 0;
-const lastQuestion = questions.length;
+const lastQuestion = questions.length - 1;
 
 let questionDisplayed = questions[0];
 
+// initializes display and quiz logic
 function startQuiz() {
 
+    hiScoreDiv.style.display = "none";
+    newQuizNav.style.display = "none";
+    hiScoreNav.style.display = "block";
     startDiv.style.display = "none";
     quizDiv.style.display = "block";
+    rightOrWrongText.style.display = "none";
+    
+    timeRemaining = 90;
+    currentQuestion = 0;
+
     interval = setInterval(function () {
 
         if (timeRemaining > 0) {
             timeRemaining--;
             timerText.textContent = " " + timeRemaining;
-        }else{
+        } else {
             endQuiz();
         }
 
@@ -123,10 +143,12 @@ function startQuiz() {
 
 }
 
+//displays next question if there are more to answer
 function showQuestion() {
 
-    if (currentQuestion < lastQuestion) {
+    if (currentQuestion <= lastQuestion) {
 
+        console.log(currentQuestion);
         questionDisplayed = questions[currentQuestion];
 
         question.textContent = questionDisplayed.question;
@@ -135,43 +157,123 @@ function showQuestion() {
         answer3.textContent = questionDisplayed.optionC;
         answer4.textContent = questionDisplayed.optionD;
 
-        console.log(questionDisplayed.optionD);
-
     }
 
 }
 
+//compares user input to correct answer
 function checkAnswer(button) {
 
-    if(button.target.value === questionDisplayed.answer){
+    if (button.target.value === questionDisplayed.answer) {
+        rightOrWrongText.style = "color: green";
         rightOrWrongText.style.display = "block";
         rightOrWrongText.textContent = "Correct!";
-    }else{
+    } else {
+        rightOrWrongText.style = "color: red";
         rightOrWrongText.style.display = "block";
         rightOrWrongText.textContent = "Incorrect.";
         timeRemaining -= 5;
+        score -= 10;
     }
 
     nextQuestion();
 
 }
 
-function nextQuestion(){
-    if(currentQuestion<lastQuestion){
+//determines whether more questions are to be displayed
+function nextQuestion() {
+
+    if (currentQuestion < lastQuestion) {
         currentQuestion++;
         showQuestion();
-    }else{
+    } else {
         endQuiz();
     }
 }
 
-function endQuiz(){
+//moves on to initals entry screen
+function endQuiz() {
+
+    clearInterval(interval);
+    startDiv.style.display = "none";
+    quizDiv.style.display = "none";
+    quizEndDiv.style.display = "block";
+    finalScore.textContent = "Your final score is " + score + " out of 100.";
 
 }
 
+//shows stored scores
+function displayHighScores() {
+    quizEndDiv.style.display = "none";
+    startDiv.style.display = "none";
+    quizDiv.style.display = "none";
+    hiScoreDiv.style.display = "block";
+    newQuizNav.style.display = "block";
+    hiScoreNav.style.display = "none";
 
+    
+        updateHighScores();
+    
+}
+
+//pushes new score to localStorage 
+function saveScore() {
+
+
+    
+    if (!scoresArray) {
+        scoresArray = [];
+    } else {
+        scoresArray = JSON.parse(scoresArray);
+    }
+    if (currentQuestion === lastQuestion) {
+    const initials = document.getElementById("inputInitials").value;
+    let userScore = { initials, score };
+    scoresArray.push(userScore);
+    localStorage.setItem("savedScores", JSON.stringify(scoresArray));
+    }
+}
+
+function updateHighScores() {
+
+    if (!scoresArray) {
+        scoresArray = [];
+    } else {
+        scoresArray = JSON.parse(scoresArray);
+    }
+
+    scoresArray.sort(function (a, b) {
+        return b.score - a.score;
+    });
+
+
+    for (var i = 0; i < scoresArray.length; i++) {
+        let li = document.createElement("li");
+
+        li.textContent = scoresArray[i].initials.toUpperCase() + " " + "-" + " " + scoresArray[i].score;
+        scoreList.appendChild(li);
+    }
+
+}
+
+//listeners
 start.addEventListener("click", startQuiz);
 answer1.addEventListener("click", checkAnswer);
 answer2.addEventListener("click", checkAnswer);
 answer3.addEventListener("click", checkAnswer);
 answer4.addEventListener("click", checkAnswer);
+submitBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    saveScore();
+    displayHighScores();
+});
+hiScoreNav.addEventListener("click", function () {
+    clearInterval(interval);
+    displayHighScores();
+});
+clearBtn.addEventListener("click", function () {
+    localStorage.clear();
+    scoreList.innerHTML = "";
+});
+newQuizNav.addEventListener("click", startQuiz);
+newQuizBtn.addEventListener("click", startQuiz);
