@@ -85,7 +85,7 @@ let timeRemaining = 90;
 let interval;
 let score = 100;
 
-let scoresArray = localStorage.getItem("savedScores");
+
 
 const start = document.querySelector("#startBtn");
 const timerText = document.querySelector("#timerText");
@@ -123,7 +123,7 @@ function startQuiz() {
     startDiv.style.display = "none";
     quizDiv.style.display = "block";
     rightOrWrongText.style.display = "none";
-    
+
     timeRemaining = 90;
     currentQuestion = 0;
 
@@ -219,22 +219,23 @@ function displayHighScores() {
 //pushes new score to localStorage 
 function saveScore() {
 
-
+    let scoresArray = localStorage.getItem("savedScores");
     
     if (!scoresArray) {
         scoresArray = [];
     } else {
         scoresArray = JSON.parse(scoresArray);
     }
-    if (currentQuestion === lastQuestion) {
+    
     const initials = document.getElementById("inputInitials").value;
     let userScore = { initials, score };
     scoresArray.push(userScore);
     localStorage.setItem("savedScores", JSON.stringify(scoresArray));
-    }
+    
 }
 
 function updateHighScores() {
+    let scoresArray = localStorage.getItem("savedScores");
 
     if (!scoresArray) {
         scoresArray = [];
